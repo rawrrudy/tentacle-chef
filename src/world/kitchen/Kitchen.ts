@@ -4,12 +4,12 @@ export class Kitchen {
   readonly tileSize = 64;
 
   stations: Station[] = [
-    new Station(128, 128, 64, 64, "stove"),
-    new Station(128, 256, 64, 64, "chopping"),
-    new Station(128, 384, 64, 64, "sink"),
+    new Station(2, 2, "stove"),
+    new Station(2, 4, "chopping"),
+    new Station(2, 6, "sink"),
 
-    new Station(960, 128, 64, 64, "ingredients"),
-    new Station(960, 384, 64, 64, "serving"),
+    new Station(15, 2, "ingredients"),
+    new Station(15, 6, "serving"),
   ];
 
   render(ctx: CanvasRenderingContext2D, width: number, height: number) {

@@ -1,14 +1,29 @@
 import { Input } from "../core/Input";
 import { Time } from "../core/Time";
+import { Kitchen } from "../world/kitchen/Kitchen";
 
 export class Player {
   x = 640;
   y = 384;
 
-  radius = 25;
+  radius = 24;
   speed = 250;
 
-  update(input: Input, time: Time, kitchen: any) {
+  private sprite: HTMLImageElement;
+  private loaded = false;
+
+  constructor() {
+    this.sprite = new Image();
+
+    // Change this path if your image is somewhere else
+    this.sprite.src = "/src/assets/icons/octopus.png";
+
+    this.sprite.onload = () => {
+      this.loaded = true;
+    };
+  }
+
+  update(input: Input, time: Time, kitchen: Kitchen) {
     let dx = 0;
     let dy = 0;
 
@@ -36,10 +51,22 @@ export class Player {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = "#8a2be2";
+    if (!this.loaded) {
+      ctx.fillStyle = "#ff00ff";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+      return;
+    }
 
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fill();
+    const size = 64;
+
+    ctx.drawImage(
+      this.sprite,
+      this.x - size / 2,
+      this.y - size / 2,
+      size,
+      size
+    );
   }
 }

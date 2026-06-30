@@ -3,27 +3,39 @@ export type StationType =
   | "chopping"
   | "sink"
   | "ingredients"
-  |  "serving";
+  | "serving";
 
 export class Station {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  readonly tileSize = 64;
+
+  tileX: number;
+  tileY: number;
   type: StationType;
 
   constructor(
-    x: number,
-    y: number,
-    width: number,
-    height: number,
+    tileX: number,
+    tileY: number,
     type: StationType
   ) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+    this.tileX = tileX;
+    this.tileY = tileY;
     this.type = type;
+  }
+
+  get x(): number {
+    return this.tileX * this.tileSize;
+  }
+
+  get y(): number {
+    return this.tileY * this.tileSize;
+  }
+
+  get width(): number {
+    return this.tileSize;
+  }
+
+  get height(): number {
+    return this.tileSize;
   }
 
   render(ctx: CanvasRenderingContext2D) {
@@ -39,13 +51,13 @@ export class Station {
       case "sink":
         ctx.fillStyle = "#4ba3ff";
         break;
-      
+
       case "ingredients":
         ctx.fillStyle = "#67c26f";
         break;
 
       case "serving":
-        ctx.fillStyle = "#f2d35e"
+        ctx.fillStyle = "#f2d35e";
         break;
     }
 
@@ -70,9 +82,6 @@ export class Station {
     const centerX = this.x + this.width / 2;
     const centerY = this.y + this.height / 2;
 
-    return Math.hypot(
-      x - centerX,
-      y - centerY
-    );
+    return Math.hypot(x - centerX, y - centerY);
   }
 }
