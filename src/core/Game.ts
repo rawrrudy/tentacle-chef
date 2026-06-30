@@ -1,4 +1,7 @@
 import { Time } from "./Time";
+import { Input } from "./Input";
+import { Player } from "../entities/Player";
+import { Kitchen } from "../world/kitchen/Kitchen";
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -6,6 +9,11 @@ export class Game {
 
   private animationId = 0;
   private time = new Time();
+
+  private input = new Input();
+  private player = new Player();
+
+  private kitchen = new Kitchen();
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -35,24 +43,37 @@ export class Game {
   }
 
   update() {
-    // Game logic will go here
+    this.player.update(this.input, this.time);
   }
 
   render() {
+    // Clear prev frame
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.ctx.fillStyle = "#1e1e1e";
+    // Background
+    this.ctx.fillStyle = "#181818";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+    // Kitchen grid
+    this.kitchen.render(
+        this.ctx,
+        this.canvas.width,
+        this.canvas.height
+    );
+
+    // FPS
     this.ctx.fillStyle = "white";
     this.ctx.font = "24px Arial";
-
     this.ctx.fillText(
       `FPS: ${Math.round(1 / Math.max(this.time.deltaTime, 0.0001))}`,
       20,
       40
     );
 
+    // Title
     this.ctx.fillText("Tentacle Chef!", 20, 80);
+
+    // Player
+    this.player.render(this.ctx);
   }
 }
