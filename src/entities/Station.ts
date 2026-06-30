@@ -3,7 +3,7 @@ export type StationType =
   | "chopping"
   | "sink"
   | "ingredients"
-  | "serving";
+  |  "serving";
 
 export class Station {
   x: number;
@@ -39,13 +39,13 @@ export class Station {
       case "sink":
         ctx.fillStyle = "#4ba3ff";
         break;
-
+      
       case "ingredients":
         ctx.fillStyle = "#67c26f";
         break;
 
       case "serving":
-        ctx.fillStyle = "#f2d35e";
+        ctx.fillStyle = "#f2d35e"
         break;
     }
 
@@ -54,5 +54,25 @@ export class Station {
     ctx.strokeStyle = "#111";
     ctx.lineWidth = 3;
     ctx.strokeRect(this.x, this.y, this.width, this.height);
+  }
+
+  containsCircle(x: number, y: number, radius: number): boolean {
+    const closestX = Math.max(this.x, Math.min(x, this.x + this.width));
+    const closestY = Math.max(this.y, Math.min(y, this.y + this.height));
+
+    const dx = x - closestX;
+    const dy = y - closestY;
+
+    return dx * dx + dy * dy < radius * radius;
+  }
+
+  distanceTo(x: number, y: number): number {
+    const centerX = this.x + this.width / 2;
+    const centerY = this.y + this.height / 2;
+
+    return Math.hypot(
+      x - centerX,
+      y - centerY
+    );
   }
 }

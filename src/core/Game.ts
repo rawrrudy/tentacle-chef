@@ -2,6 +2,8 @@ import { Time } from "./Time";
 import { Input } from "./Input";
 import { Player } from "../entities/Player";
 import { Kitchen } from "../world/kitchen/Kitchen";
+import { Camera } from "./Camera";
+import { Tentacle } from "../entities/Tentacle";
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -14,6 +16,10 @@ export class Game {
   private player = new Player();
 
   private kitchen = new Kitchen();
+
+  private camera = new  Camera();
+
+  private tentacle = new Tentacle();
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -43,7 +49,18 @@ export class Game {
   }
 
   update() {
-    this.player.update(this.input, this.time);
+    this.player.update(
+      this.input,
+      this.time,
+      this.kitchen
+    );
+
+    this.camera.follow(
+      this.player.x,
+      this.player.y,
+      this.canvas.width,
+      this.canvas.height
+    );
   }
 
   render() {
@@ -55,11 +72,45 @@ export class Game {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Kitchen grid
-    this.kitchen.render(
-        this.ctx,
-        this.canvas.width,
-        this.canvas.height
+    this.ctx.save();
+
+    this.ctx.translate(
+        -this.camera.x,
+        -this.camera.y
     );
+
+    this.kitchen.render(
+      this.ctx,
+      this.canvas.width,
+      this.canvas.height
+    );
+
+    this.tentacle.render(this.ctx, this.player, this.kitchen.getNearestStation(
+      this.player.x,
+      this.player.y,
+      120
+    ));
+
+    this.player.render(this.ctx);
+
+    this.ctx.restore();
+
+    const nearby = this.kitchen.getNearestStation(
+      this.player.x,
+      this.player.y,
+      120
+    );
+
+    if (nearby) {
+      this.ctx.fillStyle = "white";
+      this.ctx.font = "20px Arial";
+
+      this.ctx.fillText(
+        `Nearby: ${nearby.type}`,
+        20,
+        120
+      );
+    }
 
     // FPS
     this.ctx.fillStyle = "white";
@@ -72,8 +123,5 @@ export class Game {
 
     // Title
     this.ctx.fillText("Tentacle Chef!", 20, 80);
-
-    // Player
-    this.player.render(this.ctx);
   }
 }

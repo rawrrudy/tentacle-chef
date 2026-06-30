@@ -41,4 +41,35 @@ export class Kitchen {
       station.render(ctx);
     }
   }
+
+  isColliding(x: number, y: number, radius: number): boolean {
+    for (const station of this.stations) {
+      if (station.containsCircle(x, y, radius)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  getNearestStation(
+    x: number,
+    y: number,
+    maxDistance: number
+  ): Station | null {
+
+    let nearest: Station | null = null;
+    let nearestDistance = maxDistance;
+
+    for (const station of this.stations) {
+      const distance = station.distanceTo(x, y);
+
+      if (distance < nearestDistance) {
+        nearest = station;
+        nearestDistance = distance;
+      }
+    }
+
+    return nearest;
+  }
 }

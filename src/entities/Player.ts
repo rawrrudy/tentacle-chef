@@ -8,7 +8,7 @@ export class Player {
   radius = 25;
   speed = 250;
 
-  update(input: Input, time: Time) {
+  update(input: Input, time: Time, kitchen: any) {
     let dx = 0;
     let dy = 0;
 
@@ -23,8 +23,16 @@ export class Player {
       dy /= length;
     }
 
-    this.x += dx * this.speed * time.deltaTime;
-    this.y += dy * this.speed * time.deltaTime;
+    const newX = this.x + dx * this.speed * time.deltaTime;
+    const newY = this.y + dy * this.speed * time.deltaTime;
+
+    if (!kitchen.isColliding(newX, this.y, this.radius)) {
+      this.x = newX;
+    }
+
+    if (!kitchen.isColliding(this.x, newY, this.radius)) {
+      this.y = newY;
+    }
   }
 
   render(ctx: CanvasRenderingContext2D) {
