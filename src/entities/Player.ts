@@ -1,5 +1,6 @@
 import { Input } from "../core/Input";
 import { Time } from "../core/Time";
+import { Assets } from "../core/Assets";
 import { Kitchen } from "../world/kitchen/Kitchen";
 
 export class Player {
@@ -8,20 +9,6 @@ export class Player {
 
   radius = 24;
   speed = 250;
-
-  private sprite: HTMLImageElement;
-  private loaded = false;
-
-  constructor() {
-    this.sprite = new Image();
-
-    // Change this path if your image is somewhere else
-    this.sprite.src = "/src/assets/icons/octopus.png";
-
-    this.sprite.onload = () => {
-      this.loaded = true;
-    };
-  }
 
   update(input: Input, time: Time, kitchen: Kitchen) {
     let dx = 0;
@@ -51,18 +38,12 @@ export class Player {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    if (!this.loaded) {
-      ctx.fillStyle = "#ff00ff";
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fill();
-      return;
-    }
-
     const size = 64;
 
+    ctx.imageSmoothingEnabled = false;
+
     ctx.drawImage(
-      this.sprite,
+      Assets.octopus,
       this.x - size / 2,
       this.y - size / 2,
       size,

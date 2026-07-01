@@ -1,7 +1,9 @@
-export type StationType =
+import { Assets } from "../core/Assets";
+
+export type StationType = 
   | "stove"
   | "chopping"
-  | "sink"
+  | "sink" 
   | "ingredients"
   | "serving";
 
@@ -39,33 +41,39 @@ export class Station {
   }
 
   render(ctx: CanvasRenderingContext2D) {
+    ctx.imageSmoothingEnabled = false;
+
+    let sprite: HTMLImageElement;
+
     switch (this.type) {
       case "stove":
-        ctx.fillStyle = "#d94841";
+        sprite = Assets.stove;
         break;
 
       case "chopping":
-        ctx.fillStyle = "#c08b4c";
+        sprite = Assets.choppingBoard;
         break;
-
+      
       case "sink":
-        ctx.fillStyle = "#4ba3ff";
+        sprite = Assets.sink;
         break;
 
       case "ingredients":
-        ctx.fillStyle = "#67c26f";
+        sprite = Assets.ingredients;
         break;
 
       case "serving":
-        ctx.fillStyle = "#f2d35e";
+        sprite = Assets.plates;
         break;
     }
 
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-
-    ctx.strokeStyle = "#111";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(
+      sprite,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
   }
 
   containsCircle(x: number, y: number, radius: number): boolean {
