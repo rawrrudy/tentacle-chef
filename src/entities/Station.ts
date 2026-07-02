@@ -1,9 +1,10 @@
 import { Assets } from "../core/Assets";
+import type { StationState } from "./StationState";
 
-export type StationType = 
+export type StationType =
   | "stove"
   | "chopping"
-  | "sink" 
+  | "sink"
   | "ingredients"
   | "serving";
 
@@ -13,6 +14,10 @@ export class Station {
   tileX: number;
   tileY: number;
   type: StationType;
+
+  // ===== Gameplay State =====
+  state: StationState = "idle";
+  progress = 0;
 
   constructor(
     tileX: number,
@@ -53,7 +58,7 @@ export class Station {
       case "chopping":
         sprite = Assets.choppingBoard;
         break;
-      
+
       case "sink":
         sprite = Assets.sink;
         break;
@@ -74,6 +79,20 @@ export class Station {
       this.width,
       this.height
     );
+
+    // ===== Progress Bar =====
+    if (this.state !== "idle") {
+      ctx.fillStyle = "#111";
+      ctx.fillRect(this.x, this.y - 10, this.width, 6);
+
+      ctx.fillStyle = "#63ff72";
+      ctx.fillRect(
+        this.x,
+        this.y - 10,
+        this.width * this.progress,
+        6
+      );
+    }
   }
 
   containsCircle(x: number, y: number, radius: number): boolean {

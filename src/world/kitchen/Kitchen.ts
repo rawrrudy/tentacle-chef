@@ -1,17 +1,54 @@
 import { Assets } from "../../core/Assets";
 import { Station } from "../../entities/Station";
+import type { StationType } from "../../entities/Station";
+import { KITCHEN_LAYOUT } from "./Layout";
 
 export class Kitchen {
   readonly tileSize = 64;
 
-  stations: Station[] = [
-    new Station(2, 2, "stove"),
-    new Station(4, 2, "chopping"),
-    new Station(6, 2, "sink"),
+  stations: Station[] = [];
 
-    new Station(10, 2, "ingredients"),
-    new Station(12, 2, "serving"),
-  ];
+  constructor() {
+    this.generateStations();
+  }
+
+  private generateStations() {
+    for (let y = 0; y < KITCHEN_LAYOUT.length; y++) {
+      const row = KITCHEN_LAYOUT[y];
+
+      for (let x = 0; x < row.length; x++) {
+        const tile = row[x];
+
+        let type: StationType | null = null;
+
+        switch (tile) {
+          case "S":
+            type = "stove";
+            break;
+
+          case "C":
+            type = "chopping";
+            break;
+
+          case "K":
+            type = "sink";
+            break;
+
+          case "I":
+            type = "ingredients";
+            break;
+
+          case "P":
+            type = "serving";
+            break;
+        }
+
+        if (type) {
+          this.stations.push(new Station(x, y, type));
+        }
+      }
+    }
+  }
 
   render(
     ctx: CanvasRenderingContext2D,
@@ -23,7 +60,7 @@ export class Kitchen {
 
     ctx.imageSmoothingEnabled = false;
 
-    // Floor
+    // FLOOR
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
         ctx.drawImage(
@@ -36,26 +73,32 @@ export class Kitchen {
       }
     }
 
-    // Counter
-    for (let x = 1; x < 14; x++) {
-      ctx.drawImage(
-        Assets.kitchenDrawer,
-        x * this.tileSize,
-        2 * this.tileSize,
-        this.tileSize,
-        this.tileSize
-      );
+    // COUNTERS
+    for (let y = 0; y < KITCHEN_LAYOUT.length; y++) {
+      const row = KITCHEN_LAYOUT[y];
 
-      ctx.drawImage(
-        Assets.kitchenTop,
-        x * this.tileSize,
-        2 * this.tileSize,
-        this.tileSize,
-        this.tileSize
-      );
+      for (let x = 0; x < row.length; x++) {
+        if (row[x] !== ".") {
+          ctx.drawImage(
+            Assets.kitchenDrawer,
+            x * this.tileSize,
+            y * this.tileSize,
+            this.tileSize,
+            this.tileSize
+          );
+
+          ctx.drawImage(
+            Assets.kitchenTop,
+            x * this.tileSize,
+            y * this.tileSize,
+            this.tileSize,
+            this.tileSize
+          );
+        }
+      }
     }
 
-    // Stations
+    // STATIONS
     for (const station of this.stations) {
       station.render(ctx);
     }
@@ -80,7 +123,6 @@ export class Kitchen {
     y: number,
     maxDistance: number
   ): Station | null {
-
     let nearest: Station | null = null;
     let nearestDistance = maxDistance;
 
