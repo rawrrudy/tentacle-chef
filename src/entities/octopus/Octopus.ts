@@ -1,16 +1,20 @@
-import { Input } from "../core/Input";
-import { Time } from "../core/Time";
-import { Assets } from "../core/Assets";
-import { Kitchen } from "../world/kitchen/Kitchen";
+import { Assets } from "../../core/Assets";
+import { Kitchen } from "../../world/kitchen/Kitchen";
+import { Input } from "../../core/Input";
+import { Time } from "../../core/Time";
 
-export class Player {
-  x = 640;
+export class Octopus {
+  x = 648;
   y = 384;
 
   radius = 24;
   speed = 250;
 
-  update(input: Input, time: Time, kitchen: Kitchen) {
+  uodate(
+    input: Input,
+    time: Time,
+    kitchen: Kitchen
+  ) {
     let dx = 0;
     let dy = 0;
 
@@ -33,7 +37,7 @@ export class Player {
     }
 
     if (!kitchen.isColliding(this.x, newY, this.radius)) {
-      this.y = newY;
+      this.y = newY
     }
   }
 

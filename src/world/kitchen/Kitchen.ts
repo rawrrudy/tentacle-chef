@@ -1,6 +1,6 @@
 import { Assets } from "../../core/Assets";
-import { Station } from "../../entities/Station";
-import type { StationType } from "../../entities/Station";
+import { Station } from "../../entities/stations/Station";
+import type { StationType } from "../../entities/stations/Station";
 import { KITCHEN_LAYOUT } from "./Layout";
 
 export class Kitchen {

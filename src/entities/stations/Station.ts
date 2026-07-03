@@ -1,4 +1,4 @@
-import { Assets } from "../core/Assets";
+import { Assets } from "../../core/Assets";
 import type { StationState } from "./StationState";
 
 export type StationType =

@@ -1,5 +1,5 @@
-import { Player } from "./Player";
-import { Station } from "./Station";
+import { Player } from "./PlayerController";
+import { Station } from "../stations/Station";
 
 export class Tentacle {
   render(
