@@ -58,6 +58,11 @@ export class Game {
       this.kitchen
     );
 
+    this.tentacleManager.update(
+      this.octopus,
+      this.kitchen
+    );
+
     this.camera.follow(
       this.octopus.x,
       this.octopus.y,
@@ -93,8 +98,7 @@ export class Game {
 
     this.tentacleManager.render(
       this.ctx,
-      this.octopus,
-      this.kitchen
+      this.octopus
     );
 
     this.player.render(this.ctx);
