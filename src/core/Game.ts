@@ -58,6 +58,8 @@ export class Game {
       this.kitchen
     );
 
+    this.kitchen.update();
+
     this.tentacleManager.update(
       this.octopus,
       this.kitchen

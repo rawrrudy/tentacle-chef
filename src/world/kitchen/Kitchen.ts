@@ -50,6 +50,12 @@ export class Kitchen {
     }
   }
 
+  update() {
+    for (const station of this.stations) {
+      station.update();
+    }
+  }
+
   render(
     ctx: CanvasRenderingContext2D,
     width: number,

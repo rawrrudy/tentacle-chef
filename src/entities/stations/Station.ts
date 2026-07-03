@@ -9,106 +9,184 @@ export type StationType =
   | "serving";
 
 export class Station {
+
   readonly tileSize = 64;
 
-  tileX: number;
-  tileY: number;
-  type: StationType;
+  tileX:number;
+  tileY:number;
 
-  // ===== Gameplay State =====
-  state: StationState = "idle";
-  progress = 0;
+  type:StationType;
+
+  state:StationState="idle";
+
+  progress=0;
+
+  occupied=false;
 
   constructor(
-    tileX: number,
-    tileY: number,
-    type: StationType
-  ) {
-    this.tileX = tileX;
-    this.tileY = tileY;
-    this.type = type;
+      tileX:number,
+      tileY:number,
+      type:StationType
+  ){
+
+      this.tileX=tileX;
+      this.tileY=tileY;
+      this.type=type;
+
   }
 
-  get x(): number {
-    return this.tileX * this.tileSize;
+  get x(){
+      return this.tileX*this.tileSize;
   }
 
-  get y(): number {
-    return this.tileY * this.tileSize;
+  get y(){
+      return this.tileY*this.tileSize;
   }
 
-  get width(): number {
-    return this.tileSize;
+  get width(){
+      return this.tileSize;
   }
 
-  get height(): number {
-    return this.tileSize;
+  get height(){
+      return this.tileSize;
   }
 
-  render(ctx: CanvasRenderingContext2D) {
-    ctx.imageSmoothingEnabled = false;
+  update(){
 
-    let sprite: HTMLImageElement;
+      if(this.state==="working"){
 
-    switch (this.type) {
-      case "stove":
-        sprite = Assets.stove;
-        break;
+          this.progress+=0.01;
 
-      case "chopping":
-        sprite = Assets.choppingBoard;
-        break;
+          if(this.progress>=1){
 
-      case "sink":
-        sprite = Assets.sink;
-        break;
+              this.progress=1;
 
-      case "ingredients":
-        sprite = Assets.ingredients;
-        break;
+              this.state="completed";
 
-      case "serving":
-        sprite = Assets.plates;
-        break;
-    }
+          }
 
-    ctx.drawImage(
-      sprite,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
+      }
 
-    // ===== Progress Bar =====
-    if (this.state !== "idle") {
-      ctx.fillStyle = "#111";
-      ctx.fillRect(this.x, this.y - 10, this.width, 6);
+  }
 
-      ctx.fillStyle = "#63ff72";
-      ctx.fillRect(
-        this.x,
-        this.y - 10,
-        this.width * this.progress,
-        6
+  startWork(){
+
+      if(this.state==="idle"){
+
+          this.state="working";
+
+          this.progress=0;
+
+          this.occupied=true;
+
+      }
+
+  }
+
+  reset(){
+
+      this.state="idle";
+
+      this.progress=0;
+
+      this.occupied=false;
+
+  }
+
+  render(ctx:CanvasRenderingContext2D){
+
+      ctx.imageSmoothingEnabled=false;
+
+      let sprite:HTMLImageElement;
+
+      switch(this.type){
+
+          case "stove":
+              sprite=Assets.stove;
+              break;
+
+          case "chopping":
+              sprite=Assets.choppingBoard;
+              break;
+
+          case "sink":
+              sprite=Assets.sink;
+              break;
+
+          case "ingredients":
+              sprite=Assets.ingredients;
+              break;
+
+          default:
+              sprite=Assets.plates;
+
+      }
+
+      ctx.drawImage(
+          sprite,
+          this.x,
+          this.y,
+          this.width,
+          this.height
       );
-    }
+
+      if(this.state!=="idle"){
+
+          ctx.fillStyle="#000";
+
+          ctx.fillRect(
+              this.x,
+              this.y-10,
+              this.width,
+              6
+          );
+
+          ctx.fillStyle="#6CFF72";
+
+          ctx.fillRect(
+              this.x,
+              this.y-10,
+              this.width*this.progress,
+              6
+          );
+
+      }
+
   }
 
-  containsCircle(x: number, y: number, radius: number): boolean {
-    const closestX = Math.max(this.x, Math.min(x, this.x + this.width));
-    const closestY = Math.max(this.y, Math.min(y, this.y + this.height));
+  containsCircle(
+      x:number,
+      y:number,
+      radius:number
+  ){
 
-    const dx = x - closestX;
-    const dy = y - closestY;
+      const closestX=Math.max(
+          this.x,
+          Math.min(x,this.x+this.width)
+      );
 
-    return dx * dx + dy * dy < radius * radius;
+      const closestY=Math.max(
+          this.y,
+          Math.min(y,this.y+this.height)
+      );
+
+      const dx=x-closestX;
+      const dy=y-closestY;
+
+      return dx*dx+dy*dy<radius*radius;
+
   }
 
-  distanceTo(x: number, y: number): number {
-    const centerX = this.x + this.width / 2;
-    const centerY = this.y + this.height / 2;
+  distanceTo(
+      x:number,
+      y:number
+  ){
 
-    return Math.hypot(x - centerX, y - centerY);
+      return Math.hypot(
+          x-(this.x+32),
+          y-(this.y+32)
+      );
+
   }
+
 }
