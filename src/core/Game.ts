@@ -3,7 +3,7 @@ import { Input } from "./Input";
 import { Kitchen } from "../world/kitchen/Kitchen";
 import { Camera } from "./Camera";
 
-import { Tentacle } from "../entities/octopus/Tentacle";
+import { TentacleManager } from "../entities/octopus/TentacleManager";
 import { Octopus } from "../entities/octopus/Octopus";
 import { PlayerController } from "../entities/octopus/PlayerController";
 
@@ -22,7 +22,7 @@ export class Game {
   private octopus = new Octopus();
   private player = new PlayerController(this.octopus);
 
-  private tentacle = new Tentacle();
+  private tentacleManager = new TentacleManager();
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -91,10 +91,10 @@ export class Game {
       120
     );
 
-    this.tentacle.render(
+    this.tentacleManager.render(
       this.ctx,
       this.octopus,
-      nearby
+      this.kitchen
     );
 
     this.player.render(this.ctx);

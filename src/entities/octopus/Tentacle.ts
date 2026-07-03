@@ -1,16 +1,16 @@
-import { Player } from "./PlayerController";
+import { Octopus } from "./Octopus";
 import { Station } from "../stations/Station";
 
 export class Tentacle {
   render(
     ctx: CanvasRenderingContext2D,
-    player: Player,
+    octopus: Octopus,
     station: Station | null
   ) {
     if (!station) return;
 
-    const startX = player.x;
-    const startY = player.y;
+    const startX = octopus.x;
+    const startY = octopus.y;
 
     const endX = station.x + station.width / 2;
     const endY = station.y + station.height / 2;

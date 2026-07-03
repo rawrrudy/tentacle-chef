@@ -4,7 +4,11 @@ import { Kitchen } from "../../world/kitchen/Kitchen";
 import { Octopus } from "./Octopus";
 
 export class PlayerController {
-  constructor(private octopus: Octopus) {}
+  private octopus: Octopus;
+
+  constructor(octopus: Octopus) {
+    this.octopus = octopus;
+  }
 
   update(
     input: Input,

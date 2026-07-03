@@ -10,7 +10,7 @@ export class Octopus {
   radius = 24;
   speed = 250;
 
-  uodate(
+  update(
     input: Input,
     time: Time,
     kitchen: Kitchen
