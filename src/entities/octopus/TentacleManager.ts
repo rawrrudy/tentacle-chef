@@ -3,39 +3,61 @@ import { Octopus } from "./Octopus";
 import { Kitchen } from "../../world/kitchen/Kitchen";
 
 export class TentacleManager {
+
   private tentacles: Tentacle[] = [];
 
-  constructor() {
-    // Start with one tentacle
-    this.tentacles.push(new Tentacle());
+  constructor(){
+
+      this.tentacles.push(
+          new Tentacle()
+      );
+
   }
 
   update(
-    octopus: Octopus,
-    kitchen: Kitchen
-  ) {
-    const nearest = kitchen.getNearestStation(
-      octopus.x,
-      octopus.y,
-      120
-    );
+      octopus:Octopus,
+      kitchen:Kitchen
+  ){
 
-    for (const tentacle of this.tentacles) {
+      const nearest=
+          kitchen.getNearestStation(
+              octopus.x,
+              octopus.y,
+              120
+          );
 
-      if (tentacle.state === "idle") {
-        tentacle.setTarget(nearest);
+      for(const tentacle of this.tentacles){
+
+          if(
+              tentacle.state==="idle"
+          ){
+
+              tentacle.setTarget(
+                  nearest
+              );
+
+          }
+
+          tentacle.update();
+
       }
 
-      tentacle.update();
-    }
   }
 
   render(
-    ctx: CanvasRenderingContext2D,
-    octopus: Octopus
-  ) {
-    for (const tentacle of this.tentacles) {
-      tentacle.render(ctx, octopus);
-    }
+      ctx:CanvasRenderingContext2D,
+      octopus:Octopus
+  ){
+
+      for(const tentacle of this.tentacles){
+
+          tentacle.render(
+              ctx,
+              octopus
+          );
+
+      }
+
   }
+
 }
