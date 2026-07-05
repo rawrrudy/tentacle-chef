@@ -2,6 +2,7 @@ import { Assets } from "../../core/Assets";
 import { Kitchen } from "../../world/kitchen/Kitchen";
 import { Input } from "../../core/Input";
 import { Time } from "../../core/Time";
+import { Inventory } from "./Inventory";
 
 export class Octopus {
   x = 648;
@@ -9,6 +10,8 @@ export class Octopus {
 
   radius = 24;
   speed = 250;
+
+  inventory = new Inventory();
 
   update(
     input: Input,

@@ -132,5 +132,14 @@ export class Game {
       20,
       80
     );
+
+    this.ctx.fillStyle = "white";
+    this.ctx.font = "20px Arial";
+
+    this.ctx.fillText(
+      `Inventory: ${this.octopus.inventory.getItem()}`,
+      20,
+      160
+    );
   }
 }
