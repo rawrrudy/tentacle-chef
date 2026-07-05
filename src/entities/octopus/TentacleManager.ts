@@ -6,57 +6,59 @@ export class TentacleManager {
 
   private tentacles: Tentacle[] = [];
 
-  constructor(){
+  constructor() {
 
-      this.tentacles.push(
-          new Tentacle()
-      );
+    this.tentacles.push(
+      new Tentacle()
+    );
 
   }
 
   update(
-      octopus:Octopus,
-      kitchen:Kitchen
-  ){
+    octopus: Octopus,
+    kitchen: Kitchen
+  ) {
 
-      const nearest=
-          kitchen.getNearestStation(
-              octopus.x,
-              octopus.y,
-              120
-          );
+    const station =
+      kitchen.getNearestStation(
+        octopus.x,
+        octopus.y,
+        120
+      );
 
-      for(const tentacle of this.tentacles){
+    for (const tentacle of this.tentacles) {
 
-          if(
-              tentacle.state==="idle"
-          ){
+      if (
+        tentacle.state === "idle"
+      ) {
 
-              tentacle.setTarget(
-                  nearest
-              );
-
-          }
-
-          tentacle.update();
+        tentacle.setTarget(
+          station
+        );
 
       }
+
+      tentacle.update(
+        octopus
+      );
+
+    }
 
   }
 
   render(
-      ctx:CanvasRenderingContext2D,
-      octopus:Octopus
-  ){
+    ctx: CanvasRenderingContext2D,
+    octopus: Octopus
+  ) {
 
-      for(const tentacle of this.tentacles){
+    for (const tentacle of this.tentacles) {
 
-          tentacle.render(
-              ctx,
-              octopus
-          );
+      tentacle.render(
+        ctx,
+        octopus
+      );
 
-      }
+    }
 
   }
 

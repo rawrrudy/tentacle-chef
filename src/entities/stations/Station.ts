@@ -1,7 +1,8 @@
 import { Assets } from "../../core/Assets";
 import type { StationState } from "./StationState";
+import type { Inventory } from "../octopus/Inventory";
 
-export type StationType =
+export type StationType = 
   | "stove"
   | "chopping"
   | "sink"
@@ -28,7 +29,7 @@ export class Station {
       tileY:number,
       type:StationType
   ){
-
+      
       this.tileX=tileX;
       this.tileY=tileY;
       this.type=type;
@@ -51,35 +52,19 @@ export class Station {
       return this.tileSize;
   }
 
-  update(){
-
-      if(this.state==="working"){
-
-          this.progress+=0.01;
-
-          if(this.progress>=1){
-
-              this.progress=1;
-
-              this.state="completed";
-
-          }
-
-      }
-
-  }
+  update(){}
 
   startWork(){
 
-      if(this.state==="idle"){
+      this.state="working";
+      this.progress=0;
+      this.occupied=true;
+  }
 
-          this.state="working";
+  finishWork(){
+      this.state="completed";
 
-          this.progress=0;
-
-          this.occupied=true;
-
-      }
+      this.progress=1;
 
   }
 
@@ -93,6 +78,62 @@ export class Station {
 
   }
 
+  performAction(inventory:Inventory){
+
+      switch(this.type){
+
+        case "ingredients":
+
+          if(!inventory.hasItem()){
+
+              inventory.setItem("tomato");
+
+          }
+
+          break;
+
+        case "chopping":
+
+          if(
+              inventory.getItem()==="tomato"
+          ){
+
+              inventory.setItem(
+                  "choppedTomato"
+              );
+
+          }
+
+          break;
+
+        case "stove":
+
+            if(
+                inventory.getItem()==="choppedTomato"
+            ){
+                inventory.setItem(
+                    "cookedTomato"
+                );
+
+            }
+
+            break;
+
+        case "serving":
+
+            if(
+                inventory.getItem()==="cookedTomato"
+            ){
+                inventory.clear();
+
+            }
+
+            break;
+
+      }
+
+  }
+
   render(ctx:CanvasRenderingContext2D){
 
       ctx.imageSmoothingEnabled=false;
@@ -101,24 +142,24 @@ export class Station {
 
       switch(this.type){
 
-          case "stove":
-              sprite=Assets.stove;
-              break;
+        case "stove":
+            sprite=Assets.stove;;
+            break;
+        
+        case "chopping":
+            sprite=Assets.choppingBoard;
+            break;
+        
+        case "sink":
+            sprite=Assets.sink;
+            break;
 
-          case "chopping":
-              sprite=Assets.choppingBoard;
-              break;
+        case "ingredients":
+            sprite=Assets.ingredients;
+            break;
 
-          case "sink":
-              sprite=Assets.sink;
-              break;
-
-          case "ingredients":
-              sprite=Assets.ingredients;
-              break;
-
-          default:
-              sprite=Assets.plates;
+        default:
+            sprite=Assets.plates;
 
       }
 
@@ -132,7 +173,7 @@ export class Station {
 
       if(this.state!=="idle"){
 
-          ctx.fillStyle="#000";
+          ctx.fillStyle="#111";
 
           ctx.fillRect(
               this.x,
@@ -141,7 +182,7 @@ export class Station {
               6
           );
 
-          ctx.fillStyle="#6CFF72";
+          ctx.fillStyle="#6cff72";
 
           ctx.fillRect(
               this.x,
@@ -162,12 +203,18 @@ export class Station {
 
       const closestX=Math.max(
           this.x,
-          Math.min(x,this.x+this.width)
+          Math.min(
+              x,
+              this.x+this.width
+          )
       );
 
       const closestY=Math.max(
           this.y,
-          Math.min(y,this.y+this.height)
+          Math.min(
+              y,
+              this.y+this.height
+          )
       );
 
       const dx=x-closestX;
@@ -188,5 +235,5 @@ export class Station {
       );
 
   }
-
+  
 }

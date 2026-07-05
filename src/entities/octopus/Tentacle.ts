@@ -15,27 +15,26 @@ export class Tentacle {
   setTarget(station: Station | null) {
 
     if (this.state !== "idle") return;
-
     if (!station) return;
-
     if (station.occupied) return;
 
     station.occupied = true;
 
     this.target = station;
-
     this.state = "extending";
-
     this.workProgress = 0;
   }
 
-  update() {
+  update(octopus:Octopus) {
 
     if (!this.target) return;
 
     switch (this.state) {
 
       case "idle":
+        break;
+
+      case "searching":
         break;
 
       case "extending":
@@ -46,9 +45,9 @@ export class Tentacle {
 
           this.extension = 1;
 
-          this.state = "working";
-
           this.target.startWork();
+
+          this.state = "working";
 
         }
 
@@ -62,7 +61,11 @@ export class Tentacle {
 
         if (this.workProgress >= 1) {
 
-          this.target.progress = 1;
+          this.target.performAction(
+            octopus.inventory
+          );
+
+          this.target.finishWork();
 
           this.state = "retracting";
 
@@ -88,9 +91,6 @@ export class Tentacle {
 
         break;
 
-      case "searching":
-        break;
-
     }
 
   }
@@ -105,30 +105,22 @@ export class Tentacle {
     const startX = octopus.x;
     const startY = octopus.y;
 
-    const endX =
-      this.target.x + this.target.width / 2;
+    const endX = this.target.x + this.target.width / 2;
+    const endY = this.target.y + this.target.height / 2;
 
-    const endY =
-      this.target.y + this.target.height / 2;
-
-    const drawX =
+    const drawX = 
       startX + (endX - startX) * this.extension;
 
-    const drawY =
+    const drawY = 
       startY + (endY - startY) * this.extension;
 
     ctx.strokeStyle = "#d17cff";
-
     ctx.lineWidth = 6;
 
     ctx.beginPath();
-
     ctx.moveTo(startX, startY);
-
     ctx.lineTo(drawX, drawY);
-
     ctx.stroke();
-
   }
 
 }
