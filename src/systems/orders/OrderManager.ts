@@ -2,46 +2,64 @@ import type { Order } from "./Order";
 
 export class OrderManager {
 
-    private currentOrder:Order;
+  private currentOrder: Order;
 
-    constructor(){
+  constructor() {
 
-        this.currentOrder={
+    this.currentOrder = this.createOrder();
 
-            name:"Tomato Soup",
+  }
 
-            reward:20,
+  private createOrder(): Order {
 
-            timeRemaining:45,
+    return {
 
-            completed:false
+        name: "Tomato Soup",
 
-        };
+        reward: 20,
 
-    }
+        timeRemaining: 45,
 
-    update(deltaTime:number){
+        completed: false
 
-        if(this.currentOrder.completed){
+    };
 
-            return;
+  }
 
-        }
+  update(deltaTime: number) {
 
-        this.currentOrder.timeRemaining-=deltaTime;
+    if (this.currentOrder.completed) {
 
-        if(this.currentOrder.timeRemaining<0){
-
-            this.currentOrder.timeRemaining=0;
-
-        }
+      return;
 
     }
 
-    getCurrentOrder(){
+    this.currentOrder.timeRemaining -= deltaTime;
 
-        return this.currentOrder;
+    if (this.currentOrder.timeRemaining < 0) {
+
+      this.currentOrder.timeRemaining = 0;
 
     }
 
+  }
+
+  completeOrder() {
+
+    this.currentOrder.completed = true;
+
+  }
+
+  nextOrder() {
+
+    this.currentOrder = this.createOrder();
+
+  }
+
+  getCurrentOrder() {
+
+    return this.currentOrder;
+
+  }
+  
 }

@@ -7,6 +7,7 @@ import { TentacleManager } from "../entities/octopus/TentacleManager";
 import { Octopus } from "../entities/octopus/Octopus";
 import { PlayerController } from "../entities/octopus/PlayerController";
 import { OrderManager } from "../systems/orders/OrderManager";
+import { ScoreManager } from "../systems/score/ScoreManager";
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -26,6 +27,8 @@ export class Game {
   private tentacleManager = new TentacleManager();
 
   private orderManager = new OrderManager();
+
+  private scoreManager = new ScoreManager();
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -167,6 +170,12 @@ export class Game {
       `Time: ${order.timeRemaining.toFixed(1)}s`,
       20,
       260
+    );
+
+    this.ctx.fillText(
+      `Money: $${this.scoreManager.getScore()}`,
+      20,
+      290
     );
   }
 }
