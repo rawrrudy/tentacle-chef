@@ -143,4 +143,35 @@ export class Kitchen {
 
     return nearest;
   }
+
+  getNearestStationOfType(
+    x: number,
+    y: number,
+    type: string
+  ): Station | null {
+
+    let nearest: Station | null = null;
+    let nearestDistance = Infinity;
+
+    for (const station of this.stations) {
+      
+      if (station.type !== type) {
+        continue;
+      }
+
+      const distance = station.distanceTo(x, y);
+
+      if (distance < nearestDistance) {
+
+        nearestDistance = distance;
+
+        nearest = station;
+
+      }
+
+    }
+
+    return nearest;
+    
+  }
 }

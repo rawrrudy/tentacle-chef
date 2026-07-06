@@ -1,6 +1,7 @@
 import { Assets } from "../../core/Assets";
 import type { StationState } from "./StationState";
 import type { Inventory } from "../octopus/Inventory";
+import { StationAction } from "../../systems/cooking/StationAction";
 
 export type StationType = 
   | "stove"
@@ -78,60 +79,8 @@ export class Station {
 
   }
 
-  performAction(inventory:Inventory){
-
-      switch(this.type){
-
-        case "ingredients":
-
-          if(!inventory.hasItem()){
-
-              inventory.setItem("tomato");
-
-          }
-
-          break;
-
-        case "chopping":
-
-          if(
-              inventory.getItem()==="tomato"
-          ){
-
-              inventory.setItem(
-                  "choppedTomato"
-              );
-
-          }
-
-          break;
-
-        case "stove":
-
-            if(
-                inventory.getItem()==="choppedTomato"
-            ){
-                inventory.setItem(
-                    "cookedTomato"
-                );
-
-            }
-
-            break;
-
-        case "serving":
-
-            if(
-                inventory.getItem()==="cookedTomato"
-            ){
-                inventory.clear();
-
-            }
-
-            break;
-
-      }
-
+  performAction(inventory: Inventory) {
+    StationAction.perform(this, inventory);
   }
 
   render(ctx:CanvasRenderingContext2D){
