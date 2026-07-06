@@ -11,6 +11,8 @@ export class Octopus {
   radius = 24;
   speed = 250;
 
+  private bobTime = 0;
+
   inventory = new Inventory();
 
   update(
@@ -42,6 +44,9 @@ export class Octopus {
     if (!kitchen.isColliding(this.x, newY, this.radius)) {
       this.y = newY
     }
+
+    this.bobTime += time.deltaTime * 4;
+
   }
 
   render(ctx: CanvasRenderingContext2D) {
@@ -49,10 +54,33 @@ export class Octopus {
 
     ctx.imageSmoothingEnabled = false;
 
+    ctx.save();
+
+    ctx.fillStyle = "rgba(0,0,0,0.45)";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+      this.x,
+      this.y + 22,
+      24,
+      10,
+      0,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fill();
+
+    ctx.restore();
+
+    const bobOffset =
+      Math.sin(this.bobTime) * 2;
+
     ctx.drawImage(
       Assets.octopus,
       this.x - size / 2,
-      this.y - size / 2,
+      this.y - size / 2 + bobOffset,
       size,
       size
     );

@@ -105,21 +105,90 @@ export class Tentacle {
     const startX = octopus.x;
     const startY = octopus.y;
 
-    const endX = this.target.x + this.target.width / 2;
-    const endY = this.target.y + this.target.height / 2;
+    const endX =
+      this.target.x + this.target.width / 2;
+
+    const endY =
+      this.target.y + this.target.height / 2;
 
     const drawX = 
       startX + (endX - startX) * this.extension;
 
-    const drawY = 
+    const drawY =
       startY + (endY - startY) * this.extension;
 
-    ctx.strokeStyle = "#d17cff";
-    ctx.lineWidth = 6;
+    const midX =
+      (startX + drawX) / 2;
+
+    const midY =
+      (startY + drawY) / 2;
+
+    const wave =
+      Math.sin(Date.now() * 0.01) * 10;
+
+    const controlX =
+      midX + (drawY - startY) * 0.18;
+
+    const controlY =
+      midY - (drawX - startX) * 0.18 + wave;
+
+    // Shadow
+    ctx.strokeStyle = "rgba(0,0,0,0.25)";
+    ctx.lineWidth = 8;
 
     ctx.beginPath();
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(drawX, drawY);
+
+    ctx.moveTo(
+      startX,
+      startY
+    );
+
+    ctx.quadraticCurveTo(
+      controlX,
+      controlY + 3,
+      drawX,
+      drawY
+    );
+
+    ctx.stroke();
+
+    ctx.strokeStyle = "#D88CFF";
+    ctx.lineWidth = 6;
+    ctx.lineCap = "round";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      startX,
+      startY
+    );
+
+    ctx.quadraticCurveTo(
+      controlX,
+      controlY,
+      drawX,
+      drawY
+    );
+
+    ctx.stroke();
+
+    ctx.strokeStyle = "#FFD6FF";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      startX,
+      startY
+    );
+
+    ctx.quadraticCurveTo(
+      controlX,
+      controlY,
+      drawX,
+      drawY
+    );
+
     ctx.stroke();
   }
 
