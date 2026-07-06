@@ -5,61 +5,46 @@ export class OrderManager {
   private currentOrder: Order;
 
   constructor() {
-
     this.currentOrder = this.createOrder();
-
   }
 
   private createOrder(): Order {
 
     return {
-
-        name: "Tomato Soup",
-
-        reward: 20,
-
-        timeRemaining: 45,
-
-        completed: false
-
+      name: "Tomato Soup",
+      reward: 20,
+      timeRemaining: 45,
+      completed: false
     };
 
   }
 
   update(deltaTime: number) {
 
-    if (this.currentOrder.completed) {
-
-      return;
-
-    }
+    if (this.currentOrder.completed) return;
 
     this.currentOrder.timeRemaining -= deltaTime;
 
     if (this.currentOrder.timeRemaining < 0) {
-
       this.currentOrder.timeRemaining = 0;
-
     }
 
   }
 
-  completeOrder() {
+  completeOrder(): number {
+
+    const reward = this.currentOrder.reward;
 
     this.currentOrder.completed = true;
 
-  }
-
-  nextOrder() {
-
     this.currentOrder = this.createOrder();
+
+    return reward;
 
   }
 
   getCurrentOrder() {
-
     return this.currentOrder;
-
   }
-  
+
 }

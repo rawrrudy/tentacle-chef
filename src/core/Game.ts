@@ -8,6 +8,7 @@ import { Octopus } from "../entities/octopus/Octopus";
 import { PlayerController } from "../entities/octopus/PlayerController";
 import { OrderManager } from "../systems/orders/OrderManager";
 import { ScoreManager } from "../systems/score/ScoreManager";
+import { GameManager } from "../systems/game/GameManager";
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -29,6 +30,10 @@ export class Game {
   private orderManager = new OrderManager();
 
   private scoreManager = new ScoreManager();
+
+  private gameManager = new GameManager();
+
+  private previousInventory = "none";
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -58,6 +63,11 @@ export class Game {
   }
 
   update() {
+
+    if (this.gameManager.isGameOver()) {
+      return;
+    }
+
     this.player.update(
       this.input,
       this.time,
@@ -67,6 +77,10 @@ export class Game {
     this.kitchen.update();
 
     this.orderManager.update(
+      this.time.deltaTime
+    );
+
+    this.gameManager.update(
       this.time.deltaTime
     );
 
@@ -81,6 +95,25 @@ export class Game {
       this.canvas.width,
       this.canvas.height
     );
+
+    const currentInventory =
+      this.octopus.inventory.getItem();
+
+    if (
+      this.previousInventory === "cookedTomato" &&
+      currentInventory === "none"
+    ) {
+
+      const reward =
+        this.orderManager.completeOrder();
+
+      this.scoreManager.add(reward);
+
+    }
+
+    this.previousInventory = 
+      currentInventory;
+
   }
 
   render() {
@@ -177,5 +210,52 @@ export class Game {
       20,
       290
     );
+
+    this.ctx.fillText(
+      `Game Time: ${Math.ceil(this.gameManager.getTimeRemaining())}`,
+      20,
+      320
+    );
+
+    if (this.gameManager.isGameOver()) {
+
+      this.ctx.fillStyle = "rgba(0,0,0,0.7)";
+      this.ctx.fillRect(
+        0,
+        0,
+        this.canvas.width,
+        this.canvas.height
+      );
+
+      this.ctx.fillStyle = "white";
+      this.ctx.textAlign = "center";
+
+      this.ctx.font = "64px Arial";
+
+      this.ctx.fillText(
+        "GAME OVER",
+        this.canvas.width / 2,
+        this.canvas.height / 2 - 40
+      );
+
+      this.ctx.font = "32px Arial";
+
+      this.ctx.fillText(
+        `Final Money: $${this.scoreManager.getScore()}`,
+        this.canvas.width / 2,
+        this.canvas.height / 2 + 20
+      );
+
+      this.ctx.font = "20px Arial";
+
+      this.ctx.fillText(
+        "Refresh to play again!",
+        this.canvas.width / 2,
+        this.canvas.height / 2 + 70
+      );
+
+      this.ctx.textAlign = "left";
+      
+    }
   }
 }
