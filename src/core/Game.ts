@@ -11,6 +11,7 @@ import { ScoreManager } from "../systems/score/ScoreManager";
 import { GameManager } from "../systems/game/GameManager";
 import { roundedRect } from "../utils/Draw";
 import { Assets } from "./Assets";
+import { FloatingText } from "../effects/FloatingText";
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -36,6 +37,8 @@ export class Game {
   private gameManager = new GameManager();
 
   private previousInventory = "none";
+
+  private floatingText: FloatingText[] = [];
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -111,10 +114,28 @@ export class Game {
 
       this.scoreManager.add(reward);
 
+      this.camera.shake();
+
+      this.floatingText.push(
+        new FloatingText(
+          this.octopus.x,
+          this.octopus.y - 40,
+          `+$${reward}`
+        )
+      );
+
     }
 
     this.previousInventory = 
       currentInventory;
+
+    for (const text of this.floatingText) {
+      text.update(this.time.deltaTime);
+    }
+
+    this.floatingText = this.floatingText.filter(
+      text => !text.isDead()
+    );
 
   }
 
@@ -148,6 +169,10 @@ export class Game {
   );
 
   this.player.render(this.ctx);
+
+  for (const text of this.floatingText) {
+    text.render(this.ctx);
+  }
 
   this.ctx.restore();
 
@@ -251,9 +276,21 @@ export class Game {
   this.ctx.fillStyle = "#62D6FF";
   this.ctx.font = "22px Arial";
 
+  const totalSeconds = Math.max(
+    0,
+    Math.ceil(this.gameManager.getTimeRemaining())
+  );
+
+  const minutes = Math.floor(totalSeconds / 60);
+
+  const seconds = totalSeconds % 60;
+
+  const timerText = 
+    `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
   this.ctx.fillText(
-    `${Math.ceil(this.gameManager.getTimeRemaining())}s`,
-    205,
+    timerText,
+    215,
     92
   );
 

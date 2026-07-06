@@ -112,6 +112,30 @@ export class Station {
 
       }
 
+      if (this.occupied) {
+
+          const glow = 
+              (Math.sin(Date.now() * 0.008) + 1) / 2;
+
+          ctx.save();
+
+          ctx.shadowColor = "#FFD966";
+          ctx.shadowBlur = 12 + glow * 10;
+
+          ctx.strokeStyle = "#FFD966";
+          ctx.lineWidth = 3;
+
+          ctx.strokeRect(
+              this.x - 2,
+              this.y - 2,
+              this.width + 4,
+              this.height + 4
+          );
+
+          ctx.restore();
+
+      }
+
       ctx.drawImage(
           sprite,
           this.x,
@@ -122,22 +146,32 @@ export class Station {
 
       if(this.state!=="idle"){
 
-          ctx.fillStyle="#111";
+          ctx.fillStyle="#262626";
 
           ctx.fillRect(
               this.x,
-              this.y-10,
+              this.y - 12,
               this.width,
-              6
+              8
           );
 
-          ctx.fillStyle="#6cff72";
+          ctx.fillStyle = "#69F07A";
 
           ctx.fillRect(
+             this.x,
+             this.y - 12,
+             this.width * this.progress,
+             8
+          );
+
+          ctx.strokeStyle = "#111";
+          ctx.lineWidth = 1;
+
+          ctx.strokeRect(
               this.x,
-              this.y-10,
-              this.width*this.progress,
-              6
+              this.y - 12,
+              this.width,
+              8
           );
 
       }
