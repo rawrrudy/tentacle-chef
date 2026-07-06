@@ -6,6 +6,7 @@ import { Camera } from "./Camera";
 import { TentacleManager } from "../entities/octopus/TentacleManager";
 import { Octopus } from "../entities/octopus/Octopus";
 import { PlayerController } from "../entities/octopus/PlayerController";
+import { OrderManager } from "../systems/orders/OrderManager";
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -23,6 +24,8 @@ export class Game {
   private player = new PlayerController(this.octopus);
 
   private tentacleManager = new TentacleManager();
+
+  private orderManager = new OrderManager();
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -59,6 +62,10 @@ export class Game {
     );
 
     this.kitchen.update();
+
+    this.orderManager.update(
+      this.time.deltaTime
+    );
 
     this.tentacleManager.update(
       this.octopus,
@@ -140,6 +147,26 @@ export class Game {
       `Inventory: ${this.octopus.inventory.getItem()}`,
       20,
       160
+    );
+
+    const order = this.orderManager.getCurrentOrder();
+
+    this.ctx.fillText(
+      `Order: ${order.name}`,
+      20,
+      200
+    );
+
+    this.ctx.fillText(
+      `Reward: $${order.reward}`,
+      20,
+      230
+    );
+
+    this.ctx.fillText(
+      `Time: ${order.timeRemaining.toFixed(1)}s`,
+      20,
+      260
     );
   }
 }

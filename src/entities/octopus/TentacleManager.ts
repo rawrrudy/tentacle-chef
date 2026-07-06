@@ -2,6 +2,8 @@ import { Tentacle } from "./Tentacle";
 import { Octopus } from "./Octopus";
 import { Kitchen } from "../../world/kitchen/Kitchen";
 
+import { TaskPlanner } from "../../systems/planning/TaskPlanner";
+
 export class TentacleManager {
 
   private tentacles: Tentacle[] = [];
@@ -19,18 +21,24 @@ export class TentacleManager {
     kitchen: Kitchen
   ) {
 
-    const station =
-      kitchen.getNearestStation(
-        octopus.x,
-        octopus.y,
-        120
+    // Ask the planner what should happen next
+    const task =
+      TaskPlanner.getNextTask(
+        octopus.inventory
       );
 
+    // Find the correct station
+    const station =
+      kitchen.getNearestStationOfType(
+        octopus.x,
+        octopus.y,
+        task.targetStation
+      );
+
+    // Give every idle tentacle work
     for (const tentacle of this.tentacles) {
 
-      if (
-        tentacle.state === "idle"
-      ) {
+      if (tentacle.state === "idle") {
 
         tentacle.setTarget(
           station
