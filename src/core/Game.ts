@@ -150,6 +150,8 @@ export class Game {
   // WORLD
   // ======================
 
+  const order = this.orderManager.getCurrentOrder();
+
   this.ctx.save();
 
   this.ctx.translate(
@@ -160,7 +162,8 @@ export class Game {
   this.kitchen.render(
     this.ctx,
     this.canvas.width,
-    this.canvas.height
+    this.canvas.height,
+    order.name
   );
 
   this.tentacleManager.render(
@@ -180,7 +183,7 @@ export class Game {
   // HUD
   // ======================
 
-  const order = this.orderManager.getCurrentOrder();
+  
 
   // =====================
   // PANEL SHADOW
@@ -252,7 +255,7 @@ export class Game {
   // ---------- TITLE ----------
 
   this.ctx.fillStyle = "#FFF3D4";
-  this.ctx.font = "bold 30px Arial";
+  this.ctx.font = "bold 28px 'Pixelify Sans'";
 
   this.ctx.fillText(
     "TENTACLE CHEF",
@@ -263,7 +266,7 @@ export class Game {
   // ---------- MONEY ----------
 
   this.ctx.fillStyle = "#FFD54A";
-  this.ctx.font = "bold 24px Arial";
+  this.ctx.font = "bold 22px 'Pixelify Sans'";
 
   this.ctx.fillText(
     `$${this.scoreManager.getScore()}`,
@@ -274,7 +277,7 @@ export class Game {
   // ---------- GAME TIMER ----------
 
   this.ctx.fillStyle = "#62D6FF";
-  this.ctx.font = "22px Arial";
+  this.ctx.font = "20px 'Pixelify Sans'";
 
   const totalSeconds = Math.max(
     0,
@@ -309,7 +312,7 @@ export class Game {
   // ---------- ORDER ----------
 
   this.ctx.fillStyle = "#FFFFFF";
-  this.ctx.font = "bold 20px Arial";
+  this.ctx.font = "bold 19px 'Pixelify Sans'";
 
   this.ctx.fillText(
     "CURRENT ORDER",
@@ -325,7 +328,7 @@ export class Game {
     28
   );
 
-  this.ctx.font = "18px Arial";
+  this.ctx.font = "18px 'Pixelify Sans'";
 
   this.ctx.fillText(
     order.name,
@@ -426,7 +429,7 @@ export class Game {
   );
 
   this.ctx.fillStyle = "#FFFFFF";
-  this.ctx.font = "16px Arial";
+  this.ctx.font = "16px 'Pixelify Sans'";
 
   this.ctx.fillText(
     item,
@@ -451,7 +454,7 @@ export class Game {
     this.ctx.fillStyle = "#FFFFFF";
     this.ctx.textAlign = "center";
 
-    this.ctx.font = "bold 56px Arial";
+    this.ctx.font = "bold 48px 'Pixelify Sans'";
 
     this.ctx.fillText(
       "GAME OVER",
@@ -459,7 +462,7 @@ export class Game {
       this.canvas.height / 2 - 30
     );
 
-    this.ctx.font = "30px Arial";
+    this.ctx.font = "28px 'Pixelify Sans'";
 
     this.ctx.fillText(
       `Final Money: $${this.scoreManager.getScore()}`,

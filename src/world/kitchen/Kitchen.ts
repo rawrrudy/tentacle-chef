@@ -1,15 +1,27 @@
 import { Assets } from "../../core/Assets";
+import { SteamParticle } from "../../effects/SteamParticle";
 import { Station } from "../../entities/stations/Station";
 import type { StationType } from "../../entities/stations/Station";
 import { KITCHEN_LAYOUT } from "./Layout";
+import { Customer } from "../../entities/customer/Customer";
 
 export class Kitchen {
   readonly tileSize = 64;
 
   stations: Station[] = [];
 
+  customer: Customer[] = [];
+
+  private steam: SteamParticle[] = [];
+
+  private steamSpawnTimer = 0;
+
   constructor() {
     this.generateStations();
+
+    this.customer.push(
+      new Customer(980, 150)
+    );
   }
 
   private generateStations() {
@@ -51,15 +63,60 @@ export class Kitchen {
   }
 
   update() {
+
     for (const station of this.stations) {
       station.update();
     }
+
+    this.steamSpawnTimer += 1 / 60;
+    
+    if (this.steamSpawnTimer > 0.12) {
+
+      this.steamSpawnTimer = 0;
+
+      for (const station of this.stations) {
+
+        if (station.type !== "stove") continue;
+
+        this.steam.push(
+
+          new SteamParticle(
+
+            station.x + 32,
+
+            station.y + 12
+
+          )
+
+        );
+
+      }
+
+    }
+
+    for (const particle of this.steam) {
+
+      particle.update(1 / 60);
+
+    }
+
+    this.steam = this.steam.filter(
+
+      p => !p.isDead()
+      
+    );
+
+    for (const customer of this.customer) {
+      customer.update(1 / 60);
+    }
+
   }
 
   render(
     ctx: CanvasRenderingContext2D,
     width: number,
-    height: number
+    height: number,
+    order: string
   ) {
     const cols = Math.ceil(width / this.tileSize);
     const rows = Math.ceil(height / this.tileSize);
@@ -104,9 +161,23 @@ export class Kitchen {
       }
     }
 
+    // CUSTOMER
+
+    for (const customer of this.customer) {
+      customer.render(
+        ctx,
+        order
+      );
+    }
+
     // STATIONS
     for (const station of this.stations) {
       station.render(ctx);
+    }
+
+    // STEAM
+    for (const particle of this.steam) {
+      particle.render(ctx);
     }
   }
 

@@ -7,6 +7,7 @@ import plates from "../assets/icons/plates.png";
 import kitchenTop from "../assets/icons/kitchen top.png";
 import kitchenDrawer from "../assets/icons/kitchen drawer.png";
 import tile from "../assets/icons/tile.png";
+import male from "../assets/icons/male.png";
 
 function load(src: string): HTMLImageElement {
   const img = new Image();
@@ -24,4 +25,5 @@ export const Assets = {
   kitchenTop: load(kitchenTop),
   kitchenDrawer: load(kitchenDrawer),
   tile: load(tile),
+  male: load(male),
 };
