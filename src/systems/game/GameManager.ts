@@ -1,12 +1,32 @@
 export class GameManager {
 
+  // ----------------------------
+  // LEVEL DATA
+  // ----------------------------
+
+  private day = 1;
+
+  private targetMoney = 100;
+
+  private targetCustomers = 5;
+
+  private customersServed = 0;
+
+  // ----------------------------
+  // TIMER
+  // ----------------------------
+
   private timeRemaining = 180;
 
   private gameOver = false;
 
+  private levelComplete = false;
+
   update(deltaTime: number) {
 
     if (this.gameOver) return;
+
+    if (this.levelComplete) return;
 
     this.timeRemaining -= deltaTime;
 
@@ -19,6 +39,78 @@ export class GameManager {
     }
 
   }
+
+  // ----------------------------
+  // CUSTOMER PROGRESS
+  // ----------------------------
+
+  addCustomerServed() {
+
+    this.customersServed++;
+
+  }
+
+  getCustomersServed() {
+
+    return this.customersServed;
+
+  }
+
+  getTargetCustomers() {
+
+    return this.targetCustomers;
+
+  }
+
+  // ----------------------------
+  // MONEY GOAL
+  // ----------------------------
+
+  getTargetMoney() {
+
+    return this.targetMoney;
+
+  }
+
+  // ----------------------------
+  // LEVEL
+  // ----------------------------
+
+  getDay() {
+
+    return this.day;
+
+  }
+
+  checkLevelComplete(
+    currentMoney: number
+  ) {
+
+    if (
+
+      currentMoney >= this.targetMoney &&
+
+      this.customersServed >= this.targetCustomers
+
+    ) {
+
+      this.levelComplete = true;
+
+      this.gameOver = true;
+
+    }
+
+  }
+
+  isLevelComplete() {
+
+    return this.levelComplete;
+
+  }
+
+  // ----------------------------
+  // TIMER
+  // ----------------------------
 
   getTimeRemaining() {
 
@@ -37,6 +129,10 @@ export class GameManager {
     this.timeRemaining = 180;
 
     this.gameOver = false;
+
+    this.levelComplete = false;
+
+    this.customersServed = 0;
 
   }
 

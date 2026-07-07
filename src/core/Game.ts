@@ -70,6 +70,20 @@ export class Game {
   update() {
 
     if (this.gameManager.isGameOver()) {
+
+      //Retry
+      if (this.input.isKeyDown("r")) {
+        window.location.reload();
+      }
+
+      //Next day
+      if (
+        this.gameManager.isLevelComplete() &&
+        this.input.isKeyDown("enter")
+      ) {
+        window.location.reload();
+      }
+
       return;
     }
 
@@ -113,6 +127,12 @@ export class Game {
         this.orderManager.completeOrder();
 
       this.scoreManager.add(reward);
+
+      this.gameManager.addCustomerServed();
+
+      this.gameManager.checkLevelComplete(
+        this.scoreManager.getScore()
+      );
 
       this.camera.shake();
 
@@ -199,7 +219,7 @@ export class Game {
     15,
     15,
     295,
-    320,
+    460,
     16
   );
 
@@ -236,7 +256,7 @@ export class Game {
       18,
       18,
       289,
-      314,
+      454,
       14
   );
 
@@ -309,6 +329,32 @@ export class Game {
 
   this.ctx.stroke();
 
+  // ------ LEVEL INFO ---------
+  this.ctx.fillStyle = "#7CFF8A";
+  this.ctx.font = "16px 'Pixelify Sans'";
+
+  this.ctx.fillText(
+    `Day ${this.gameManager.getDay()}`,
+    30,
+    130
+  );
+
+  this.ctx.fillStyle = "#FFD54A";
+
+  this.ctx.fillText(
+    `Goal: $${this.scoreManager.getScore()} / ${this.gameManager.getTargetMoney()}`,
+    30,
+    152
+  );
+
+  this.ctx.fillStyle = "#7CE7FF";
+
+  this.ctx.fillText(
+    `Customers: ${this.gameManager.getCustomersServed()} / ${this.gameManager.getTargetCustomers()}`,
+    30,
+    174
+  );
+
   // ---------- ORDER ----------
 
   this.ctx.fillStyle = "#FFFFFF";
@@ -317,13 +363,13 @@ export class Game {
   this.ctx.fillText(
     "CURRENT ORDER",
     30,
-    135
+    205
   );
 
   this.ctx.drawImage(
     Assets.ingredients,
     30,
-    145,
+    215,
     28,
     28
   );
@@ -333,7 +379,7 @@ export class Game {
   this.ctx.fillText(
     order.name,
     68,
-    165
+    235
   );
 
   // ---------- PROGRESS BAR ----------
@@ -347,7 +393,7 @@ export class Game {
 
   this.ctx.fillRect(
     30,
-    182,
+    252,
     240,
     18
   );
@@ -356,7 +402,7 @@ export class Game {
 
   this.ctx.fillRect(
     30,
-    182,
+    252,
     240 * progress,
     20
   );
@@ -364,7 +410,7 @@ export class Game {
   this.ctx.strokeStyle = "#111";
   this.ctx.strokeRect(
     30,
-    182,
+    252,
     240,
     18
   );
@@ -372,12 +418,12 @@ export class Game {
   // ---------- REWARD ----------
 
   this.ctx.fillStyle = "#FFA93A";
-  this.ctx.font = "18px Arial";
+  this.ctx.font = "18px 'Pixelify Sans'";
 
   this.ctx.fillText(
     `Reward: $${order.reward}`,
     30,
-    220
+    290
   );
 
   // ------- DIVIDER --------
@@ -387,20 +433,20 @@ export class Game {
   this.ctx.strokeStyle = "rgba(255,255,255,0.10)";
   this.ctx.lineWidth = 1;
 
-  this.ctx.moveTo(30,235);
-  this.ctx.lineTo(280,235);
+  this.ctx.moveTo(30,315);
+  this.ctx.lineTo(280,315);
 
   this.ctx.stroke();
 
   // ---------- INVENTORY ----------
 
   this.ctx.fillStyle = "#A5FF8A";
-  this.ctx.font = "bold 18px Arial";
+  this.ctx.font = "bold 18px 'Pixelify Sans'";
 
   this.ctx.fillText(
     "INVENTORY",
     30,
-    260
+    340
   );
 
   const item = this.octopus.inventory.getItem();
@@ -423,7 +469,7 @@ export class Game {
   this.ctx.drawImage(
     inventorySprite,
     30,
-    275,
+    355,
     32,
     32
   );
@@ -434,7 +480,7 @@ export class Game {
   this.ctx.fillText(
     item,
     72,
-    284
+    374
   );
 
   // ======================
@@ -456,26 +502,52 @@ export class Game {
 
     this.ctx.font = "bold 48px 'Pixelify Sans'";
 
+    if (this.gameManager.isLevelComplete()) {
+
+      this.ctx.fillStyle = "#69F07A";
+
+      this.ctx.fillText(
+        "DAY COMPLETE!",
+        this.canvas.width / 2,
+        this.canvas.height / 2 - 30
+      );
+    } else {
+        
+        this.ctx.fillStyle = "#FF6464";
+
+        this.ctx.fillText(
+          "TIME'S UP!",
+          this.canvas.width / 2,
+          this.canvas.height / 2 - 30
+        );
+
+    }
+
+    this.ctx.font = "22px 'Pixelify Sans'";
+    this.ctx.fillStyle = "#FFD54A";
+
     this.ctx.fillText(
-      "GAME OVER",
+      `Money: $${this.scoreManager.getScore()} / $${this.gameManager.getTargetMoney()}`,
       this.canvas.width / 2,
-      this.canvas.height / 2 - 30
+      this.canvas.height / 2 + 20
     );
 
-    this.ctx.font = "28px 'Pixelify Sans'";
-
     this.ctx.fillText(
-      `Final Money: $${this.scoreManager.getScore()}`,
+      `Customers: ${this.gameManager.getCustomersServed()} / ${this.gameManager.getTargetCustomers()}`,
       this.canvas.width / 2,
-      this.canvas.height / 2 + 30
+      this.canvas.height / 2 + 60
     );
 
-    this.ctx.font = "18px Arial";
+    this.ctx.font = "18px 'Pixelify Sans'";
+
+    const endMessage = this.gameManager.isLevelComplete()
+      ? "Press ENTER for Day 2"
+      : "Press R to Retry";
 
     this.ctx.fillText(
-      "Refresh to play again",
+      endMessage,
       this.canvas.width / 2,
-      this.canvas.height / 2 + 70
+      this.canvas.height / 2 + 110
     );
 
     this.ctx.textAlign = "left";

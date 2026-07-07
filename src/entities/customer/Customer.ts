@@ -60,10 +60,10 @@ export class Customer {
     ctx.beginPath();
 
     ctx.roundRect(
-        this.x - 22,
-        this.y - 62 + offset,
-        44,
-        28,
+        this.x - 48,
+        this.y - 74 + offset,
+        96,
+        34,
         8
     );
 
@@ -75,16 +75,16 @@ export class Customer {
     ctx.stroke();
 
     ctx.fillStyle = "#111";
-    ctx.font = "12px Pixelify Sans";
+    ctx.font = "bold 14px 'Pixelify Sans'";
     ctx.textAlign = "center";
 
     ctx.fillText(
         order,
         this.x,
-        this.y - 44 + offset
+        this.y - 52 + offset
     );
 
-    ctx.textAlign = "left";
+    ctx.textAlign = "center";
 
   }
 
