@@ -19,9 +19,18 @@ export class Kitchen {
   constructor() {
     this.generateStations();
 
-    this.customer.push(
-      new Customer(980, 150)
-    );
+    for (let i = 0; i < 4; i++) {
+
+      this.customer.push(
+
+        new Customer(
+          980,
+          150 + i * 75
+        )
+
+      );
+
+    }
   }
 
   private generateStations() {
@@ -163,12 +172,19 @@ export class Kitchen {
 
     // CUSTOMER
 
-    for (const customer of this.customer) {
-      customer.render(
+    for (let i = 0; i < this.customer.length; i++) {
+
+    this.customer[i].render(
+
         ctx,
-        order
-      );
-    }
+
+        order,
+
+        i === 0
+
+    );
+
+  }
 
     // STATIONS
     for (const station of this.stations) {
@@ -245,4 +261,25 @@ export class Kitchen {
     return nearest;
     
   }
+
+  customerServed() {
+
+  this.customer.shift();
+
+  for (let i = 0; i < this.customer.length; i++) {
+
+    this.customer[i].targetY = 150 + i * 75;
+
+  }
+
+  this.customer.push(
+
+    new Customer(
+      980,
+      150 + 3 * 75
+    )
+
+  );
+
+}
 }

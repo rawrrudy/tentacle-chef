@@ -130,6 +130,8 @@ export class Game {
 
       this.gameManager.addCustomerServed();
 
+      this.kitchen.customerServed();
+
       this.gameManager.checkLevelComplete(
         this.scoreManager.getScore()
       );

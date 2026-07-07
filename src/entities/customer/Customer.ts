@@ -4,6 +4,7 @@ export class Customer {
 
   x: number;
   y: number;
+  targetY: number;
 
   private bob = Math.random() * Math.PI * 2;
 
@@ -13,15 +14,19 @@ export class Customer {
   ) {
     this.x = x;
     this.y = y;
+    this.targetY = y;
   }
 
   update(delta: number) {
     this.bob += delta * 2;
+
+    this.y += (this.targetY - this.y) * 0.12;
   }
 
   render(
       ctx: CanvasRenderingContext2D,
-      order: string
+      order: string,
+      showBubble: boolean
   ) {
 
     const offset =
@@ -55,6 +60,8 @@ export class Customer {
       64
     );
 
+    if (showBubble) {
+
     ctx.fillStyle = "#FFFFFF";
 
     ctx.beginPath();
@@ -71,7 +78,6 @@ export class Customer {
 
     ctx.strokeStyle = "#111";
     ctx.lineWidth = 2;
-
     ctx.stroke();
 
     ctx.fillStyle = "#111";
@@ -84,7 +90,9 @@ export class Customer {
         this.y - 52 + offset
     );
 
-    ctx.textAlign = "center";
+    ctx.textAlign = "left";
+
+    }
 
   }
 
