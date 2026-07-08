@@ -70,7 +70,7 @@ export class AudioManager {
 
     this.win.addEventListener("timeupdate", () => {
 
-      if (this.win.currentTime > 1.20) {
+      if (this.win.currentTime > 2) {
 
         this.win.pause();
         this.win.currentTime = 0;

@@ -127,8 +127,8 @@ export class Kitchen {
     height: number,
     order: string
   ) {
-    const cols = Math.ceil(width / this.tileSize);
-    const rows = Math.ceil(height / this.tileSize);
+    const cols = KITCHEN_LAYOUT[0].length;
+    const rows = KITCHEN_LAYOUT.length;
 
     ctx.imageSmoothingEnabled = false;
 
@@ -202,14 +202,50 @@ export class Kitchen {
     y: number,
     radius: number
   ): boolean {
-    for (const station of this.stations) {
-      if (station.containsCircle(x, y, radius)) {
-        return true;
+
+    // Check every solid counter tile
+    for (let row = 0; row < KITCHEN_LAYOUT.length; row++) {
+
+      for (let col = 0; col < KITCHEN_LAYOUT[row].length; col++) {
+
+        if (KITCHEN_LAYOUT[row][col] === ".") {
+          continue;
+        }
+
+        const tileX = col * this.tileSize;
+        const tileY = row * this.tileSize;
+
+        const padding = 14;
+
+        const left = tileX + padding;
+        const top = tileY + padding;
+        const right = tileX + this.tileSize - padding;
+        const bottom = tileY + this.tileSize - padding;
+
+        const closestX = Math.max(
+          tileX,
+          Math.min(x, right)
+        );
+
+        const closestY = Math.max(
+          tileY,
+          Math.min(y, bottom)
+        );
+
+        const dx = x - closestX;
+        const dy = y - closestY;
+
+        if (dx * dx + dy * dy < radius * radius) {
+          return true;
+        }
+
       }
+
     }
 
     return false;
-  }
+
+  } 
 
   getNearestStation(
     x: number,
@@ -275,7 +311,7 @@ export class Kitchen {
   this.customer.push(
 
     new Customer(
-      910,
+      960,
       150 + 3 * 75
     )
 

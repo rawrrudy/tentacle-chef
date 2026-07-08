@@ -119,13 +119,6 @@ export class Game {
       this.kitchen
     );
 
-    this.camera.follow(
-      this.octopus.x,
-      this.octopus.y,
-      this.canvas.width,
-      this.canvas.height
-    );
-
     const currentInventory =
       this.octopus.inventory.getItem();
 
@@ -154,8 +147,6 @@ export class Game {
         AudioManager.playWin();
 
       }
-
-      this.camera.shake();
 
       this.floatingText.push(
         new FloatingText(
@@ -193,11 +184,20 @@ export class Game {
 
   const order = this.orderManager.getCurrentOrder();
 
+  const worldWidth = 15 * 64;
+  const worldHeight = 10 * 64;
+
+  const offsetX =
+    (this.canvas.width - worldWidth) / 2;
+
+  const offsetY =
+    (this.canvas.height - worldHeight) / 2;
+
   this.ctx.save();
 
   this.ctx.translate(
-    -this.camera.x,
-    -this.camera.y
+    offsetX,
+    offsetY
   );
 
   this.kitchen.render(

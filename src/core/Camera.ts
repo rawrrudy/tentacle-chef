@@ -32,12 +32,17 @@ export class Camera {
     canvasHeight: number
   ) {
 
+    // ⚠️ Update these if your map size changes
+    const worldWidth = 15 * 64;
+    const worldHeight = 10 * 64;
+
     const desiredX =
       targetX - canvasWidth / 2;
 
     const desiredY =
       targetY - canvasHeight / 2;
 
+    // Smooth follow
     this.x +=
       (desiredX - this.x) *
       this.smoothness;
@@ -46,6 +51,7 @@ export class Camera {
       (desiredY - this.y) *
       this.smoothness;
 
+    // Camera shake
     if (this.shakeTime > 0) {
 
       this.shakeTime -= 1 / 60;
@@ -59,6 +65,23 @@ export class Camera {
         this.shakeStrength;
 
     }
+
+    // Clamp camera inside the world
+    this.x = Math.max(
+      0,
+      Math.min(
+        this.x,
+        worldWidth - canvasWidth
+      )
+    );
+
+    this.y = Math.max(
+      0,
+      Math.min(
+        this.y,
+        worldHeight - canvasHeight
+      )
+    );
 
   }
 
