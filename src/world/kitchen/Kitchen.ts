@@ -300,22 +300,41 @@ export class Kitchen {
 
   customerServed() {
 
-  this.customer.shift();
+    this.customer.shift();
 
-  for (let i = 0; i < this.customer.length; i++) {
+    for (let i = 0; i < this.customer.length; i++) {
 
-    this.customer[i].targetY = 150 + i * 75;
+      this.customer[i].targetY = 150 + i * 75;
+
+    }
+
+    this.customer.push(
+
+      new Customer(
+        960,
+        150 + 3 * 75
+      )
+
+    );
 
   }
 
-  this.customer.push(
+  resetCustomers() {
 
-    new Customer(
-      960,
-      150 + 3 * 75
-    )
+    this.customer = [];
 
-  );
+    for (let i = 0; i < 4; i++) {
 
-}
+      this.customer.push(
+
+        new Customer(
+          910,
+          150 + i * 75
+        )
+
+      );
+
+    }
+
+  }
 }

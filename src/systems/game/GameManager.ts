@@ -124,15 +124,39 @@ export class GameManager {
 
   }
 
-  restart() {
+  nextDay() {
+
+    this.day++;
+
+    this.targetMoney += 60;
+
+    this.targetCustomers += 3;
 
     this.timeRemaining = 180;
 
-    this.gameOver = false;
+    this.customersServed = 0;
 
     this.levelComplete = false;
 
+    this.gameOver = false;
+
+  }
+
+  restart() {
+
+    this.day = 1;
+
+    this.targetMoney = 100;
+
+    this.targetCustomers = 5;
+
+    this.timeRemaining = 180;
+
     this.customersServed = 0;
+
+    this.levelComplete = false;
+
+    this.gameOver = false;
 
   }
 

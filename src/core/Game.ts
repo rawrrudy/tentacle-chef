@@ -82,20 +82,30 @@ export class Game {
 
     if (this.gameManager.isGameOver()) {
 
-      //Retry
-      if (this.input.isKeyDown("r")) {
-        window.location.reload();
-      }
+      if (this.gameManager.isLevelComplete()) {
 
-      //Next day
-      if (
-        this.gameManager.isLevelComplete() &&
-        this.input.isKeyDown("enter")
-      ) {
-        window.location.reload();
+        if (this.input.isKeyDown("enter")) {
+
+          this.gameManager.nextDay();
+
+          this.kitchen.resetCustomers();
+
+        }
+
+      } else {
+
+        if (this.input.isKeyDown("r")) {
+
+          this.gameManager.restart();
+
+          this.kitchen.resetCustomers();
+
+        }
+
       }
 
       return;
+
     }
 
     this.player.update(
