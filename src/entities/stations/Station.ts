@@ -2,6 +2,7 @@ import { Assets } from "../../core/Assets";
 import type { StationState } from "./StationState";
 import type { Inventory } from "../octopus/Inventory";
 import { StationAction } from "../../systems/cooking/StationAction";
+import { AudioManager } from "../../core/Audio";
 
 export type StationType = 
   | "stove"
@@ -55,11 +56,25 @@ export class Station {
 
   update(){}
 
-  startWork(){
+  startWork() {
 
-      this.state="working";
-      this.progress=0;
-      this.occupied=true;
+      this.state = "working";
+      this.progress = 0;
+      this.occupied = true;
+
+      // Play sound based on station type
+      if (this.type === "stove") {
+
+          AudioManager.playCook();
+
+      }
+
+       if (this.type === "chopping") {
+
+          AudioManager.playChop();
+
+      }
+
   }
 
   finishWork(){

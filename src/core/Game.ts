@@ -12,6 +12,7 @@ import { GameManager } from "../systems/game/GameManager";
 import { roundedRect } from "../utils/Draw";
 import { Assets } from "./Assets";
 import { FloatingText } from "../effects/FloatingText";
+import { AudioManager } from "./Audio";
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -48,6 +49,16 @@ export class Game {
     if (!ctx) throw new Error("Canvas not supported");
 
     this.ctx = ctx;
+
+    AudioManager.init();
+
+    window.addEventListener(
+      "keydown",
+      () => {
+        AudioManager.bgm.play();
+      },
+      { once: true }
+    );
   }
 
   start() {
@@ -128,6 +139,8 @@ export class Game {
 
       this.scoreManager.add(reward);
 
+      AudioManager.playCash();
+
       this.gameManager.addCustomerServed();
 
       this.kitchen.customerServed();
@@ -135,6 +148,12 @@ export class Game {
       this.gameManager.checkLevelComplete(
         this.scoreManager.getScore()
       );
+
+      if (this.gameManager.isLevelComplete()) {
+
+        AudioManager.playWin();
+
+      }
 
       this.camera.shake();
 

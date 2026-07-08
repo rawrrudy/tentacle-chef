@@ -24,7 +24,7 @@ export class Kitchen {
       this.customer.push(
 
         new Customer(
-          980,
+          910,
           150 + i * 75
         )
 
@@ -275,7 +275,7 @@ export class Kitchen {
   this.customer.push(
 
     new Customer(
-      980,
+      910,
       150 + 3 * 75
     )
 
