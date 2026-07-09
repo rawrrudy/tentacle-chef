@@ -22,17 +22,11 @@ Growing up, I was always intrigued and fascinated by cooking games. I still reme
 
 ## Screenshots
 
-### Gameplay
-
-![Gameplay](assets/screenshots/gameplay.png)
-
-### Serving Customers
-
-![Serving](assets/screenshots/serving.png)
-
-### Day Complete Screen
-
-![Day Complete](assets/screenshots/day-complete.png)
+<p align="center">
+  <img src="screenshots/daycomplete.png" width="700">
+  <br>
+  <em>Day Completed!</em>
+</p>
 
 ---
 
