@@ -185,7 +185,7 @@ export class Game {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
   // Background
-  this.ctx.fillStyle = "#181818";
+  this.ctx.fillStyle = "#1D1A1A";
   this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
   // ======================
@@ -308,16 +308,22 @@ export class Game {
   this.ctx.fillStyle = "#FFF3D4";
   this.ctx.font = "bold 28px 'Pixelify Sans'";
 
+  const titleBob =
+    Math.sin(Date.now() * 0.003) * 2;
+
   this.ctx.fillText(
     "TENTACLE CHEF",
     72,
-    50
+    50 + titleBob
   );
 
   // ---------- MONEY ----------
 
+  const moneyPulse =
+    22 + Math.sin(Date.now() * 0.006) * 1.5;
+
   this.ctx.fillStyle = "#FFD54A";
-  this.ctx.font = "bold 22px 'Pixelify Sans'";
+  this.ctx.font = `bold ${moneyPulse}px 'Pixelify Sans'`;
 
   this.ctx.fillText(
     `$${this.scoreManager.getScore()}`,
@@ -514,6 +520,27 @@ export class Game {
     374
   );
 
+  const vignette = this.ctx.createRadialGradient(
+    this.canvas.width / 2,
+    this.canvas.height / 2,
+    200,
+    this.canvas.width / 2,
+    this.canvas.height / 2,
+    900
+  );
+
+  vignette.addColorStop(0, "rgba(0,0,0,0)");
+  vignette.addColorStop(1, "rgba(0,0,0,0.35)");
+
+  this.ctx.fillStyle = vignette;
+
+  this.ctx.fillRect(
+    0,
+    0,
+    this.canvas.width,
+    this.canvas.height
+  );
+
   // ======================
   // GAME OVER
   // ======================
@@ -537,10 +564,31 @@ export class Game {
 
       this.ctx.fillStyle = "#69F07A";
 
+      this.ctx.font = "26px 'Pixelify Sans'";
+      this.ctx.fillStyle = "#FFD54A";
+
+      this.ctx.fillText(
+        "★★★★★",
+        this.canvas.width / 2,
+        this.canvas.height / 2 - 85
+      );
+
+      this.ctx.font = "bold 48px 'Pixelify Sans'";
+      this.ctx.fillStyle = "#69F07A";
+
       this.ctx.fillText(
         "DAY COMPLETE!",
         this.canvas.width / 2,
         this.canvas.height / 2 - 30
+      );
+
+      this.ctx.font = "22px 'Pixelify Sans'";
+      this.ctx.fillStyle = "#FFFFFF";
+
+      this.ctx.fillText(
+        `Welcome to Day ${this.gameManager.getDay() + 1}!`,
+        this.canvas.width / 2,
+        this.canvas.height / 2 + 5
       );
     } else {
         
@@ -557,16 +605,20 @@ export class Game {
     this.ctx.font = "22px 'Pixelify Sans'";
     this.ctx.fillStyle = "#FFD54A";
 
-    this.ctx.fillText(
-      `Money: $${this.scoreManager.getScore()} / $${this.gameManager.getTargetMoney()}`,
-      this.canvas.width / 2,
-      this.canvas.height / 2 + 20
-    );
+    this.ctx.fillStyle = "#FFD54A";
 
     this.ctx.fillText(
-      `Customers: ${this.gameManager.getCustomersServed()} / ${this.gameManager.getTargetCustomers()}`,
+      `Money Earned: $${this.scoreManager.getScore()}`,
       this.canvas.width / 2,
-      this.canvas.height / 2 + 60
+      this.canvas.height / 2 + 45
+    );
+
+    this.ctx.fillStyle = "#7CFF8A";
+
+    this.ctx.fillText(
+      `Customers Served: ${this.gameManager.getCustomersServed()}`,
+      this.canvas.width / 2,
+      this.canvas.height / 2 + 75
     );
 
     this.ctx.font = "18px 'Pixelify Sans'";
