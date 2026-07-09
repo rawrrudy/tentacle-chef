@@ -28,6 +28,12 @@ Growing up, I was always intrigued and fascinated by cooking games. I still reme
   <em>Day Completed!</em>
 </p>
 
+<p align="center">
+  <img src="screenshots/gameplay.png" width="700">
+  <br>
+  <em>Gameplay screenshot.</em>
+</p>
+
 ---
 
 # Tech Stack
