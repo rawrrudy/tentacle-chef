@@ -10,6 +10,8 @@
 
 ## Overview
 
+I created and built this project for [Horizons | Hack Club](https://horizons.hackclub.com/app)
+
 Tentacle Chef is a cozy pixel style 2D game where you play as an octopus chef. Each session, you have 3 minutes to reach as many days as you can. You earn money by fulfilling orders and serving customers! As the days progress, the difficulty level also increases.
 
 ---
