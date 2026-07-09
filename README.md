@@ -42,7 +42,7 @@ Growing up, I was always intrigued and fascinated by cooking games. I still reme
 
 ---
 
-# Tech Stack
+## Tech Stack
 
 | Category | Tech used |
 |----------|--------------|
@@ -56,7 +56,9 @@ Growing up, I was always intrigued and fascinated by cooking games. I still reme
 
 ---
 
-# How It Works
+## How It Works
+
+> At the time of submission, I have made a prototype version of Tentacle Chef and am looking forward to add more recipes, customers, maps nad levels once the project gets approved!
 
 The gameplay revolves around a simple cooking loop:
 
