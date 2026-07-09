@@ -123,8 +123,8 @@ export class Kitchen {
 
   render(
     ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number,
+    _width: number,
+    _height: number,
     order: string
   ) {
     const cols = KITCHEN_LAYOUT[0].length;
@@ -223,12 +223,12 @@ export class Kitchen {
         const bottom = tileY + this.tileSize - padding;
 
         const closestX = Math.max(
-          tileX,
+          left,
           Math.min(x, right)
         );
 
         const closestY = Math.max(
-          tileY,
+          top,
           Math.min(y, bottom)
         );
 

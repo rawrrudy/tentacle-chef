@@ -1,7 +1,6 @@
 import { Time } from "./Time";
 import { Input } from "./Input";
 import { Kitchen } from "../world/kitchen/Kitchen";
-import { Camera } from "./Camera";
 
 import { TentacleManager } from "../entities/octopus/TentacleManager";
 import { Octopus } from "../entities/octopus/Octopus";
@@ -24,7 +23,6 @@ export class Game {
   private input = new Input();
 
   private kitchen = new Kitchen();
-  private camera = new Camera();
 
   private octopus = new Octopus();
   private player = new PlayerController(this.octopus);
