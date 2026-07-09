@@ -1,1 +1,81 @@
+# Tentacle Chef!
 
+> 3 Minutes is all you have. Cook, serve, and survive the rush as an octopus chef. Complete orders, earn money, and serve customers to proceed to increasingly harder days!
+
+<p align="center">
+  <img src="src/assets/icons/octopus.png" width="900"/>
+</p>
+
+---
+
+## Overview
+
+Tentacle Chef is a cozy pixel style 2D game where you play as an octopus chef. Each session, you have 3 minutes to reach as many days as you can. You earn money by fulfilling orders and serving customers! As the days progress, the difficulty level also increases.
+
+---
+
+## Motivation
+
+Growing up, I was always intrigued and fascinated by cooking games. I still remember playing Overcooked with my mother and having the time of my life! I tried creating a similar cooking game to sort of relive that overall experience and nostalgia.
+
+---
+
+## Screenshots
+
+### Gameplay
+
+![Gameplay](assets/screenshots/gameplay.png)
+
+### Serving Customers
+
+![Serving](assets/screenshots/serving.png)
+
+### Day Complete Screen
+
+![Day Complete](assets/screenshots/day-complete.png)
+
+---
+
+# Tech Stack
+
+| Category | Tech used |
+|----------|--------------|
+| Language | TypeScript |
+| Frontend | HTML5 Canvas |
+| Build Tool | Vite |
+| Graphics | Pixel Art (Piskel) |
+| Audio | HTML5 Audio API |
+| Version Control | Git + GitHub |
+| Deployment | Vercel |
+
+---
+
+# How It Works
+
+The gameplay revolves around a simple cooking loop:
+
+1. Customers join the queue and place orders.
+2. The player moves around the kitchen and cook orders.
+5. Successfully serving dishes rewards money.
+6. Completing the day's objectives unlocks the next day with higher difficulty.
+
+
+ Controls
+
+| Key | Action |
+|-----|--------|
+| W A S D | Move |
+| ENTER | Start Next Day |
+| R | Restart after Time Up |
+
+---
+
+# Future Improvements
+
+- Multiple recipes
+- New ingredients
+- Kitchen upgrades
+- Boss rush mode
+- Power-ups
+- Local multiplayer
+- Procedurally generated kitchens
