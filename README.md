@@ -34,6 +34,12 @@ Growing up, I was always intrigued and fascinated by cooking games. I still reme
   <em>Gameplay screenshot.</em>
 </p>
 
+<p align="center">
+  <img src="screenshots/timesup.png" width="700">
+  <br>
+  <em>Time's Up!</em>
+</p>
+
 ---
 
 # Tech Stack
