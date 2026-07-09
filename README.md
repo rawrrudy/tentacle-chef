@@ -3,7 +3,7 @@
 > 3 Minutes is all you have. Cook, serve, and survive the rush as an octopus chef. Complete orders, earn money, and serve customers to proceed to increasingly harder days!
 
 <p align="center">
-  <img src="assets/screenshots/banner.png" width="900"/>
+  <img src="assets/icons/octopus.png" width="900"/>
 </p>
 
 ---
