@@ -78,12 +78,16 @@ The gameplay revolves around a simple cooking loop:
 
 ---
 
-# Future Improvements
+## Future Improvements
 
 - Multiple recipes
 - New ingredients
 - Kitchen upgrades
-- Boss rush mode
-- Power-ups
-- Local multiplayer
-- Procedurally generated kitchens
+- Power ups
+- New maps
+
+---
+
+## Acknowledgement
+
+I would like to thank the entire team at [Horizons | Hack Club](https://horizons.hackclub.com/app) for conducting such a fun experience! 
