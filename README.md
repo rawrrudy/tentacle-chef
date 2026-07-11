@@ -133,6 +133,8 @@ To preview the production build locally:
 npm run preview
 ```
 
+---
+
 ## Future Improvements
 
 - Multiple recipes
