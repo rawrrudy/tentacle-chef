@@ -80,6 +80,59 @@ The gameplay revolves around a simple cooking loop:
 
 ---
 
+## How to Run?
+
+### Prerequisites
+
+- Node.js (v18 or later)
+- npm
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/rawrrudy/tentacle-chef.git
+```
+
+Navigate into the project directory:
+
+```bash
+cd tentacle-chef
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open your browser and visit:
+
+```
+http://localhost:5173
+```
+
+### Build for Production
+
+To create an optimized production build:
+
+```bash
+npm run build
+```
+
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
 ## Future Improvements
 
 - Multiple recipes
